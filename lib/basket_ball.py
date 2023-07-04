@@ -182,3 +182,64 @@ def game_dict():
             ]
         }
     }
+
+teams = game_dict()
+home_players = teams["home"]["players"]
+away_players = teams["away"]["players"]
+players = [*home_players, *away_players]
+
+def num_points_per_game(name):
+    for player in players:
+        if player["name"] == name:
+            return player["points_per_game"]
+
+def player_age(name):
+    for player in players:
+        if player["name"] == name:
+            return player["age"]
+
+def team_colors(team_name):
+    for key in teams:
+        if teams[key]["team_name"] == team_name:
+            return teams[key]["colors"]
+
+def team_names():
+    names_list = []
+    for key in teams:
+        names_list.append(teams[key]["team_name"])
+    return names_list
+
+def player_numbers(team_name):
+    jersey_numbers = []
+    for key in teams:
+        if teams[key]["team_name"] == team_name :
+            for player in teams[key]["players"] :
+                jersey_numbers.append(player["number"])
+    return jersey_numbers
+
+def player_stats(player_name):
+    for player in players :
+        if player["name"] == player_name :
+            return player
+
+#auxiliary, returns list of players that all wear the same shoe brand
+def players_by_shoe_brand(shoe_brand):
+    player_list = []
+    for player in players :
+        if player["shoe_brand"] == shoe_brand :
+            player_list.append(player)
+    return player_list
+
+def average_rebounds_by_shoe_brand():
+    output_dict = {}
+    #build dictionary step 1: add shoe brands
+    for player in players :
+        if player["shoe_brand"] not in output_dict.keys() :
+            output_dict[player["shoe_brand"]] = []
+    #build dictionary step 2: add rebounds
+    for player in players :
+        output_dict[player["shoe_brand"]].append(player["rebounds_per_game"])
+    #build dictionary step 3: calculate average
+    for shoe_brand in output_dict :
+        average = sum(output_dict[shoe_brand]) / len(output_dict[shoe_brand])
+        print(f'{shoe_brand}:  {average:.2f}')
